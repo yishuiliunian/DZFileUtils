@@ -1,0 +1,6 @@
+framework module DZFileUtils {
+  umbrella header "DZFileUtils-umbrella.h"
+
+  export *
+  module * { export * }
+}
