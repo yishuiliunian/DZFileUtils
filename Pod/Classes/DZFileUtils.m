@@ -18,6 +18,8 @@ void DZEnsurePathExist(NSString* path)
     }
 }
 
+
+
 NSString* DZDocumentsPath()
 {
     static NSString* documentsPath = nil;
@@ -44,6 +46,20 @@ NSString* DZAppendPath(NSString* parentPath, NSString* sub) {
     return str;
 }
 
+NSString* DZTempDir(){
+    return NSTemporaryDirectory();
+}
+
+NSString* DZMKTempDirectory(){
+    NSString* path = [[NSUUID UUID] UUIDString];
+    return DZAppendPath(DZTempDir(), path);
+}
+
 NSString* DZDocumentsSubPath(NSString* str) {
     return DZAppendPath(DZDocumentsPath(), str);
+}
+
+
+NSString* DZPathJoin(NSString* a, NSString* b) {
+    return [a stringByAppendingPathComponent:b];
 }
