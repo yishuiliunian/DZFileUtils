@@ -63,3 +63,17 @@ NSString* DZDocumentsSubPath(NSString* str) {
 NSString* DZPathJoin(NSString* a, NSString* b) {
     return [a stringByAppendingPathComponent:b];
 }
+
+
+NSString* DZTempFilePathWithExtension(NSString* extension){
+    NSString* fileName = [NSUUID UUID].UUIDString;
+    NSString* path = DZTempDir();
+    path = [path stringByAppendingPathComponent:fileName];
+    path = [path stringByAppendingPathExtension:extension];
+    return path;
+}
+
+void DZRemoveFileByPath(NSString* path) {
+    NSError* error = nil;
+    [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
+}
