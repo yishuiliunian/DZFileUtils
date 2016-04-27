@@ -77,3 +77,9 @@ void DZRemoveFileByPath(NSString* path) {
     NSError* error = nil;
     [[NSFileManager defaultManager] removeItemAtPath:path error:&error];
 }
+
+
+NSString* DZFileInSubPath(NSString* fileName, NSString* subPath){
+    NSString* sp = DZDocumentsSubPath(subPath);
+    return DZAppendPath(fileName, sp);
+}
