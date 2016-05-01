@@ -25,10 +25,10 @@ NSString* DZDocumentsPath()
     static NSString* documentsPath = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSArray* urls =  [NSShareFileManager URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+        NSArray* urls =  [NSShareFileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
         NSURL* url = urls[0];
         documentsPath = [url path];
-        documentsPath = [documentsPath stringByAppendingPathComponent:@"TrackBugs"];
+        documentsPath = [documentsPath stringByAppendingPathComponent:@"MainData"];
         DZEnsurePathExist(documentsPath);
     });
     return documentsPath;
@@ -79,7 +79,8 @@ void DZRemoveFileByPath(NSString* path) {
 }
 
 
-NSString* DZFileInSubPath(NSString* fileName, NSString* subPath){
+NSString* DZFileInSubPath(NSString* subPath, NSString* fileName){
     NSString* sp = DZDocumentsSubPath(subPath);
-    return DZAppendPath(fileName, sp);
+    DZEnsurePathExist(sp);
+    return DZAppendPath(sp, fileName);
 }
