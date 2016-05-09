@@ -23,4 +23,5 @@ FOUNDATION_EXTERN NSString* DZTempDir();
 FOUNDATION_EXTERN NSString* DZTempFilePathWithExtension(NSString* extension);
 FOUNDATION_EXTERN void DZRemoveFileByPath(NSString* path);
 FOUNDATION_EXTERN NSString* DZFileInSubPath(NSString* subPath, NSString* fileName);
+FOUNDATION_EXTERN BOOL DZFileExist(NSString* path);
 #endif

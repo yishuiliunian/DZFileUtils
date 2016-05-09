@@ -19,6 +19,9 @@ void DZEnsurePathExist(NSString* path)
 }
 
 
+BOOL DZFileExist(NSString* path) {
+    return  [NSShareFileManager fileExistsAtPath:path];
+}
 
 NSString* DZDocumentsPath()
 {
