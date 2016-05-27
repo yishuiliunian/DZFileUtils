@@ -87,3 +87,7 @@ NSString* DZFileInSubPath(NSString* subPath, NSString* fileName){
     DZEnsurePathExist(sp);
     return DZAppendPath(sp, fileName);
 }
+
+BOOL DZMoveFile(NSString* originPath, NSString* aimPath, NSError* __autoreleasing* error) {
+   return  [[NSFileManager defaultManager] moveItemAtPath:originPath toPath:aimPath error:error];
+}
