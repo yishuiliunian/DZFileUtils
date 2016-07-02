@@ -85,7 +85,7 @@ void DZRemoveFileByPath(NSString* path) {
 NSString* DZFileInSubPath(NSString* subPath, NSString* fileName){
     NSString* sp = DZDocumentsSubPath(subPath);
     DZEnsurePathExist(sp);
-    return DZAppendPath(sp, fileName);
+    return [sp stringByAppendingPathComponent:fileName];
 }
 
 BOOL DZMoveFile(NSString* originPath, NSString* aimPath, NSError* __autoreleasing* error) {
