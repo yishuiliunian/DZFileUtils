@@ -23,6 +23,34 @@ BOOL DZFileExist(NSString* path) {
     return  [NSShareFileManager fileExistsAtPath:path];
 }
 
+NSString * DZApplicationDocumentsPath() {
+    static NSString* documentsPath = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray* urls =  [NSShareFileManager URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
+        NSURL* url = urls[0];
+        documentsPath = [url path];
+    });
+    return documentsPath;
+}
+
+NSString * DZApplicationLibaryPath()
+{
+    static NSString* documentsPath = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray* urls =  [NSShareFileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+        NSURL* url = urls[0];
+        documentsPath = [url path];
+    });
+    return documentsPath;
+}
+
+NSString * DZApplicationTempPath()
+{
+    return NSTemporaryDirectory();
+}
+
 NSString* DZDocumentsPath()
 {
     static NSString* documentsPath = nil;
@@ -90,4 +118,35 @@ NSString* DZFileInSubPath(NSString* subPath, NSString* fileName){
 
 BOOL DZMoveFile(NSString* originPath, NSString* aimPath, NSError* __autoreleasing* error) {
    return  [[NSFileManager defaultManager] moveItemAtPath:originPath toPath:aimPath error:error];
+}
+
+int64_t DZDirectorySize(NSString * path, NSFileManager * fileManager) {
+
+    BOOL  isDirectory = NO;
+    BOOL  exist =[fileManager fileExistsAtPath:path isDirectory:&isDirectory];
+    if (!exist) {
+        return 0;
+    }
+
+    if (!isDirectory){
+        return 0;
+    }
+
+    int64_t  totalSize = 0;
+    NSError * error;
+    NSArray * subpaths = [fileManager subpathsOfDirectoryAtPath:path error:&error];
+    for (NSString * subpath in subpaths) {
+        BOOL  isD;
+        BOOL  isE;
+        NSString * checkPath = [path stringByAppendingPathComponent:subpath];
+        isE = [fileManager fileExistsAtPath:checkPath isDirectory:&isD];
+        if (isE && !isD) {
+                NSError * error;
+                NSDictionary * attributes = [fileManager attributesOfItemAtPath:checkPath error:&error];
+                if (!error && attributes ) {
+                    totalSize += [attributes fileSize];
+                }
+        }
+    }
+    return totalSize;
 }

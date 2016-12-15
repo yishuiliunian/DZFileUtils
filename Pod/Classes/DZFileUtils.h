@@ -25,4 +25,9 @@ FOUNDATION_EXTERN void DZRemoveFileByPath(NSString* path);
 FOUNDATION_EXTERN NSString* DZFileInSubPath(NSString* subPath, NSString* fileName);
 FOUNDATION_EXTERN BOOL DZFileExist(NSString* path);
 FOUNDATION_EXTERN BOOL DZMoveFile(NSString* originPath, NSString* aimPath, NSError* __autoreleasing* error) ;
+FOUNDATION_EXTERN int64_t DZDirectorySize(NSString * path, NSFileManager * fileManager);
+
+FOUNDATION_EXTERN  NSString * DZApplicationDocumentsPath();
+FOUNDATION_EXTERN  NSString * DZApplicationLibaryPath();
+FOUNDATION_EXTERN  NSString * DZApplicationTempPath();
 #endif
