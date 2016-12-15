@@ -133,19 +133,20 @@ int64_t DZDirectorySize(NSString * path, NSFileManager * fileManager) {
     }
 
     int64_t  totalSize = 0;
-    NSError * error;
-    NSArray * subpaths = [fileManager subpathsOfDirectoryAtPath:path error:&error];
-    for (NSString * subpath in subpaths) {
+
+    NSDirectoryEnumerator * itor = [fileManager enumeratorAtPath:path];
+    NSString * file ;
+    while (file = [itor nextObject]) {
         BOOL  isD;
         BOOL  isE;
-        NSString * checkPath = [path stringByAppendingPathComponent:subpath];
+        NSString * checkPath = [path stringByAppendingPathComponent:file];
         isE = [fileManager fileExistsAtPath:checkPath isDirectory:&isD];
         if (isE && !isD) {
-                NSError * error;
-                NSDictionary * attributes = [fileManager attributesOfItemAtPath:checkPath error:&error];
-                if (!error && attributes ) {
-                    totalSize += [attributes fileSize];
-                }
+            NSError * error;
+            NSDictionary * attributes = [fileManager attributesOfItemAtPath:checkPath error:&error];
+            if (!error && attributes ) {
+                totalSize += [attributes fileSize];
+            }
         }
     }
     return totalSize;
