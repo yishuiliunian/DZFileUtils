@@ -46,6 +46,18 @@ NSString * DZApplicationLibaryPath()
     return documentsPath;
 }
 
+NSString * DZApplicationDirectory()
+{
+    static NSString* documentsPath = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        NSArray* urls =  [NSShareFileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+        NSURL* url = urls[0];
+        documentsPath = [url path];
+        documentsPath = [documentsPath stringByDeletingLastPathComponent];
+    });
+    return documentsPath;
+}
 NSString * DZApplicationTempPath()
 {
     return NSTemporaryDirectory();
@@ -150,4 +162,30 @@ int64_t DZDirectorySize(NSString * path, NSFileManager * fileManager) {
         }
     }
     return totalSize;
+}
+
+
+NSString * DZFilteLocalPath(NSString * originPath) {
+    if (!originPath || originPath.length < DZApplicationDirectory().length) {
+        return originPath;
+    }
+    NSRange range = [originPath rangeOfString:DZApplicationDirectory()];
+    if (range.location != NSNotFound) {
+        return [originPath substringFromIndex:range.location + range.length];
+    }
+    return originPath;
+}
+
+NSString * DZGenerateLocalPath(NSString * pathCompents) {
+    return [DZApplicationDirectory() stringByAppendingPathComponent:pathCompents];
+}
+
+
+NSURL * DZMediaURL(NSString * path)
+{
+    if ([path hasPrefix:@"http"]) {
+        return [NSURL URLWithString:path];
+    } else {
+        return [NSURL fileURLWithPath:DZGenerateLocalPath(path)];
+    }
 }

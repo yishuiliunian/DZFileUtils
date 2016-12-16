@@ -30,4 +30,7 @@ FOUNDATION_EXTERN int64_t DZDirectorySize(NSString * path, NSFileManager * fileM
 FOUNDATION_EXTERN  NSString * DZApplicationDocumentsPath();
 FOUNDATION_EXTERN  NSString * DZApplicationLibaryPath();
 FOUNDATION_EXTERN  NSString * DZApplicationTempPath();
+FOUNDATION_EXTERN  NSString * DZFilteLocalPath(NSString * originPath);
+FOUNDATION_EXTERN  NSString * DZGenerateLocalPath(NSString * pathCompents);
+FOUNDATION_EXTERN  NSURL * DZMediaURL(NSString * path);
 #endif
